@@ -1,6 +1,30 @@
 # -*- coding: utf-8 -*-
 
 def avg(data):
+    products = data.values()[0]
+    newlist = list()
+
+    for d in products:
+        newlist.append(d["price"])
+    total = 0
+    for p in newlist:
+        total +=p
+    avgp = total/len(newlist)
+    return avgp
+
+print( avg({
+"products": [ {
+"name": "Product 1",
+"price": 100 },
+{
+"name": "Product 2", "price": 700
+}, {
+"price": 300 }
+] })
+)
+"""
+# Note
+def avg(data):
     p = data.values()
     products = p[0]
     d1 = products[0]
@@ -28,3 +52,4 @@ print( avg({
 "price": 300 }
 ] })
 )
+"""
