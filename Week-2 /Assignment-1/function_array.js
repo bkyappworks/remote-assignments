@@ -14,9 +14,26 @@ function max(numbers) {
 console.log( max([1, 2, 4, 5]) ); // should print 5
 console.log( max([5, 2, 7, 1, 6]) ); // should print 7
 
-
 // function findPosition(numbers, target)
+//試著不要用 includes 來判斷是否存在，因為你都會用迴圈全部掃過一遍了，可以直接在裡面判斷出來
+function findPosition(numbers, target) {
+    for (let i = 0;i < numbers.length; i += 1){
+        if (numbers[i] == target) {
+            return i;
+        }
+    }
+    return -1;
+}
+console.log( findPosition([5, 2, 7, 1, 6], 5) ); // should print 0
+console.log( findPosition([5, 2, 7, 1, 6], 7) ); // should print 2
+console.log( findPosition([5, 2, 7, 7, 7, 1, 6], 7) ); // should print 2 (the first one) 
+console.log( findPosition([5, 2, 7, 1, 6], 8) ); // should print -1
 
+
+
+//Note
+/*
+//v2 : change to return
 function findPosition(numbers, target) {
     whether = numbers.includes(target)
     for (let i = 0;i < numbers.length; i += 1){
@@ -35,8 +52,6 @@ console.log( findPosition([5, 2, 7, 1, 6], 7) ); // should print 2
 console.log( findPosition([5, 2, 7, 7, 7, 1, 6], 7) ); // should print 2 (the first one) 
 console.log( findPosition([5, 2, 7, 1, 6], 8) ); // should print -1
 
-//Note
-/*
 // function max(numbers)
 //function version
 function max(numbers) {
