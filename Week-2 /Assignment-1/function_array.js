@@ -9,7 +9,7 @@ function max(numbers) {
             max_value = numbers[i]
         }  
     }
-    console.log(max_value)
+    return max_value
 }
 console.log( max([1, 2, 4, 5]) ); // should print 5
 console.log( max([5, 2, 7, 1, 6]) ); // should print 7
@@ -21,12 +21,12 @@ function findPosition(numbers, target) {
     whether = numbers.includes(target)
     for (let i = 0;i < numbers.length; i += 1){
         if (whether == false) {
-            console.log(-1)
-            break;
+            return -1;
+            // break;
         }
         if (numbers[i] == target) {
-            console.log(i)
-            break;
+            return i;
+            // break;
         }
     }
 }
