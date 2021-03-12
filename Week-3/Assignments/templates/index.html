@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<!--Enter Name -->
+<div class="enter-name">
+    <div class="grid-100">
+        <form action="{{ url_for('save') }}" method="POST">      
+            <label>Your Name is:</label>
+            <input type="text" id="param" name="name" value="{{saves.get('name','')}}" autofocus>
+            <input type="submit" value="submit">
+            <script>
+                var param = document.getElementById('param').value;
+                const url = new URL(window.location);
+                url.searchParams.set('name', param);
+                window.history.pushState({}, '', url);
+            </script>
+        </form>
+    </div>
+</div>
+{% endblock %}

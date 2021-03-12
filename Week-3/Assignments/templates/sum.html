@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<script>
+
+function getNum()
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            document.getElementById("myDiv").contentText = xmlhttp.responseText;
+        }
+    }
+    var param = document.getElementById('param').value; 
+
+    //redirect to new url
+    const url = new URL(window.location);
+    url.searchParams.set('number', param);
+    window.history.pushState({}, '', url);
+
+
+    // calculate sum
+    let total = 0;
+    let number = Number(param)
+    for (let i = 0; i < number+1; i += 1){  
+        total += i
+    }
+    alert(total) 
+}
+
+
+</script>
+
+</head>
+
+<body>
+
+<h2>calculate sum</h2>
+
+<div id="myDiv"></div>
+    <input type='text' id='param'/>
+    <button type="button" onclick="getNum()">Enter</button>
+    <h2></h2>
+</body>
+</html>
