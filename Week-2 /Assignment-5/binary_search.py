@@ -9,15 +9,16 @@ def binary_search_first(numbers, target):
             low = mid
         elif target < numbers[mid]:
             high = mid
-    if high - low <= 1:
+    #can’t find the target number      
+    if mid == low:
         return mid+1
     #carry mid
     for i in range(low,mid+1):
         if numbers[i] == target:
             return i
-print(binary_search_first([1, 2, 5, 5, 5, 6, 7], 2)) 
-print(binary_search_first([1, 2, 5, 5, 5, 6, 7], 5))
-print(binary_search_first([1, 2, 5, 5, 5, 6, 7], 3)) 
+print(binary_search_first([1, 2, 5, 5, 5, 6, 7], 2)) #1
+print(binary_search_first([1, 2, 5, 5, 5, 6, 7], 5)) #2
+print(binary_search_first([1, 2, 5, 5, 5, 6, 7], 3)) #2
 
 
 """
