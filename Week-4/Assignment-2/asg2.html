@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>This is a Google Products Website</title>
+  </head>
+  <body>
+    <h1 id = "h1"></h1>
+    <div id="myDiv"></div>
+    <!-- <input type='text' id='param'/>
+    <button type="button" onclick="getNum()">Enter</button> -->
+    <h2>
+    </h2>
+      <script>
+        function ajax(src, callback){
+            var request = new XMLHttpRequest();
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    var product = request.response; 
+                    var data = JSON.parse(product);
+                    console.log(data);
+                    callback(data)
+                }
+            };
+            request.open('GET', src, true);
+            request.send();
+            // var product = request.response; 
+            // var data = JSON.parse(product);
+            // var product = request.response; 
+            // var productlist = JSON.parse(product); 
+            // callback(data)
+        }
+
+        function render(data){
+            // var productlist = data; 
+            var header = document.getElementById("h1");
+            header.textContent = "This is a Google Products Website!"
+            for (let i = 0;i <data.length; i += 1){     
+                var pname = document.createElement('h3');
+                var pprice = document.createElement('li');
+                var pdescription = document.createElement('li');
+                header.appendChild(pname);
+                header.appendChild(pprice);
+                header.appendChild(pdescription);
+                pname.textContent = "Product: "+ data[i]["name"];
+                pprice.textContent = "Price: $ " + data[i]["price"];
+                pdescription.textContent = "Hightlight: " + data[i]["description"];
+                // console.log(pname)
+                // return header
+            };
+        };
+
+        ajax("http://13.113.12.180:4000/api/1.0/remote-w4-data", function(response){ render(response);});
+      </script>
+  </body>
+</html>
