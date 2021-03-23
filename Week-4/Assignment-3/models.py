@@ -6,6 +6,7 @@ from flask_login import UserMixin
 # from common import db 
 # from flasker import db
 import pymysql
+
 # from peewee import *
 
 # DATABASE = SqliteDatabase('social.db')
@@ -31,6 +32,7 @@ class User(UserMixin):
     except:
         db.rollback()
 
+    
     # @classmethod
     def create_user(email, password):
         try:
@@ -40,36 +42,33 @@ class User(UserMixin):
         except IntegrityError:
             raise ValueError("User already exists")
 
-    # @classmethod    
-    # def select_user(email):
-    #     try:
-    #         cursor.execute("SELECT * FROM user WHERE email = %s", (email))
-    #         user = cursor.fetchone()
-    #         for row in user:
-    #             email = row[1]
-    #     except:
-    #         return None
-    # def select_user(email):
-    #     cursor = db.cursor(pymysql.cursors.DictCursor)
-    #     cursor.execute('SELECT * FROM user WHERE email = %s', (email))
-    #     try:
-    #         user = cursor.fetchone() # a dict
-    #         if user:
-    #             email = user[1]
-    #             return email
-    #     except:
-    #         return None
-    def select_user(email):
-        cursor = db.cursor(pymysql.cursors.DictCursor)
+    # @classmethod  
+    def select_user_email(email):
+        # cursor = db.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT `email` FROM user WHERE email = %s', (email))
-        try:
-            email = cursor.fetchone()[0]["email"]
+        print(email)
+        try:    
+            email = cursor.fetchone()[0]
             if email:
-                return email
+                print("success")
+                return email     
         except:
+            print("NOT success")
+            return None
+    def select_user_pwd(password):
+        # cursor = db.cursor(pymysql.cursors.DictCursor)
+        cursor.execute('SELECT `password` FROM user WHERE password = %s', (password))
+        print(password)
+        try:    
+            password = cursor.fetchone()[0]
+            if password:
+                print("success")
+                return password     
+        except:
+            print("NOT success")
             return None
 
 def initialize():
-    # db.create_tables([User], safe=True) # def create_user
+    # db.create_tables([User], safe=True) 
     db.create_user()
     db.close()

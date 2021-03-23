@@ -22,28 +22,12 @@ login_manager.login_view = 'login'
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
-    # form = forms.RegisterForm()
-    # if form.validate_on_submit():
-    #     return redirect(url_for('member'))
-    # return render_template('index.html',form=form)
     return "Hello!"
 
 @login_manager.user_loader 
 def load_user(id):
     try:
         return models.User.get(models.User.id == id)
-    except:
-        return None
-
-# @login_manager.user_loader 
-# def load_user(id): 
-#     return User.query.get(int(id)) 
-@login_manager.user_loader
-def load_user(id):
-    try:
-        user = models.User.select_user(id)
-        email = user["email"]
-        return email
     except:
         return None
 
@@ -69,14 +53,10 @@ def signup():
     
     if form.validate_on_submit():
         flash("Yay, you signed up!", "success")
-        user = models.User.create_user(
+        models.User.create_user(
             email=form.email.data,
             password=form.password.data
         )
-        # user = models.User.create_user(
-        # email = form.email.data,
-        # password = form.password.data
-        # )
         return redirect(url_for('member'))
     return render_template('register.html', form=form)
 
@@ -91,37 +71,38 @@ def signin():
     form = forms.LoginForm()
     if form.validate_on_submit():
         try:
-            user = models.User.select_user(form.email.data) # all success
-            # user = models.User.select_user(models.User.email == form.email.data) # all mismatch
-            flash("Success")
+        #user = models.User.select_user(form.email.data) # all success
+        #user = models.User.select_user(models.User.email == form.email.data) # all mismatch
+            email = models.User.select_user_email(email=form.email.data)
+            password = models.User.select_user_pwd(password=form.password.data)
+            if email:
+                if password:
+                    flash("Success")
+                    # print(form) #<forms.LoginForm object at 0x7fc7b80091c0>
+                    # print(form.email) #<input id="email" name="email" required type="text" value="aa@gmail.com">
+                    return redirect(url_for('member'))
+                elif password == None:
+                    flash("Your email or password doesn't match!", "error")
+            else:
+                flash("Your email or password doesn't match!", "error")
         except:
-            flash("Your email doesn't match!", "error")
-    #     else:
-    #         password = user["password"]
-    #         if check_password_hash(password,form.password.data): #user.password, 
-    #             login_user(user)
-    #             flash("You've been logged in!", "success")
-    #             return redirect(url_for('member'))
-    #         else:
-    #             flash("Your password doesn't match!", "error")
+            flash("Your email or password doesn't match!", "error")
     return render_template('login.html', form=form)
 
 
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash("You've been logged out! Come back soon!", "success")
-    return redirect(url_for('index'))
+# @app.route('/logout')
+# @login_required
+# def logout():
+#     logout_user()
+#     flash("You've been logged out! Come back soon!", "success")
+#     return redirect(url_for('index'))
 
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    # models.initialize()
-    # form = forms.RegisterForm()
     try:
         user = models.User.create_user(
             email = "test@gmail.com",
